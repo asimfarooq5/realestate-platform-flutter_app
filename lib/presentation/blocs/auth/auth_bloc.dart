@@ -47,7 +47,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       final response = await _authRepository.login(event.email, event.password);
       _authRepository.setAuthToken(response.accessToken);
+      // RegistrationSuccess is a one-shot signal for the register screen's
+      // toast/navigation; the persisted app-wide state other screens (e.g.
+      // Profile, Favorites) check is Authenticated, so emit that too.
       emit(RegistrationSuccess(response.user));
+      emit(Authenticated(response.user));
     } catch (e) {
       emit(AuthError(_friendlyError(e)));
     }
