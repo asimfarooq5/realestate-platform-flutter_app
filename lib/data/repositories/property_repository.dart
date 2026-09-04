@@ -86,7 +86,11 @@ class PropertyRepository {
     return _apiClient.getMyInquiries();
   }
 
-  Future<List<Property>> getMyProperties() async {
-    return _apiClient.getMyProperties();
+  Future<List<Property>> getMyProperties({bool? isDraft}) async {
+    return _apiClient.getMyProperties(isDraft: isDraft);
+  }
+
+  Future<List<Project>> getProjects() async {
+    return _apiClient.getProjects();
   }
 }

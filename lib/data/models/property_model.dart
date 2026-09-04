@@ -27,6 +27,10 @@ abstract class Property with _$Property {
     @JsonKey(name: 'total_floors') int? totalFloors,
     @JsonKey(name: 'year_built') int? yearBuilt,
     @Default(false) bool furnished,
+    String? subtype,
+    @JsonKey(name: 'installments_available') @Default(false) bool installmentsAvailable,
+    @JsonKey(name: 'is_draft') @Default(false) bool isDraft,
+    Map<String, dynamic>? features,
     List<String>? amenities,
     @JsonKey(name: 'video_url') String? videoUrl,
     @JsonKey(name: 'virtual_tour_url') String? virtualTourUrl,
@@ -95,6 +99,26 @@ abstract class Area with _$Area {
   }) = _Area;
 
   factory Area.fromJson(Map<String, dynamic> json) => _$AreaFromJson(json);
+}
+
+@freezed
+abstract class Project with _$Project {
+  const factory Project({
+    required String id,
+    required String title,
+    required String slug,
+    String? developer,
+    String? description,
+    @JsonKey(name: 'cover_image') String? coverImage,
+    @Default('UPCOMING') String status,
+    @JsonKey(name: 'price_starting') double? priceStarting,
+    @JsonKey(name: 'city_id') String? cityId,
+    City? city,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+  }) = _Project;
+
+  factory Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 }
 
 @freezed

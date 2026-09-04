@@ -13,6 +13,7 @@ import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/my_properties_screen.dart';
 import 'package:malkiyat_app/presentation/screens/notifications_screen.dart';
+import 'package:malkiyat_app/presentation/screens/projects_screen.dart';
 import 'package:malkiyat_app/presentation/screens/register_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -174,6 +175,8 @@ class _AuthenticatedProfileState extends State<_AuthenticatedProfile> {
 
         _buildMenuItem(icon: Icons.favorite_outline, title: 'My Favorites', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FavoritesScreen()))),
         _buildMenuItem(icon: Icons.home_outlined, title: 'My Properties', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MyPropertiesScreen()))),
+        _buildMenuItem(icon: Icons.drafts_outlined, title: 'Drafts', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MyPropertiesScreen(isDraft: true, title: 'Drafts')))),
+        _buildMenuItem(icon: Icons.apartment_outlined, title: 'Projects', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProjectsScreen()))),
         _buildMenuItem(icon: Icons.chat_bubble_outline, title: 'Messages', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MessagesScreen()))),
         _buildMenuItem(icon: Icons.notifications_outlined, title: 'Notifications', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen()))),
         _buildMenuItem(icon: Icons.help_outline, title: 'Help Center', onTap: () => _emailSupport('Help Center')),

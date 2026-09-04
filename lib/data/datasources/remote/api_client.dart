@@ -77,8 +77,11 @@ class ApiClient {
     await _dio.post('${ApiConstants.me}/deactivate');
   }
 
-  Future<List<Property>> getMyProperties() async {
-    final response = await _dio.get(ApiConstants.myProperties);
+  Future<List<Property>> getMyProperties({bool? isDraft}) async {
+    final response = await _dio.get(
+      ApiConstants.myProperties,
+      queryParameters: {if (isDraft != null) 'is_draft': isDraft},
+    );
     return (response.data as List)
         .map((json) => Property.fromJson(json))
         .toList();
@@ -239,6 +242,13 @@ class ApiClient {
       data: {'text': text},
     );
     return ChatMessage.fromJson(response.data);
+  }
+
+  Future<List<Project>> getProjects() async {
+    final response = await _dio.get(ApiConstants.projects);
+    return (response.data as List)
+        .map((json) => Project.fromJson(json))
+        .toList();
   }
 
   Future<List<CommunityPost>> getCommunityPosts() async {

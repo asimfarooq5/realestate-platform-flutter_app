@@ -24,6 +24,9 @@ class ApiConstants {
   static const String myProperties = '$apiVersion/users/me/properties';
   static const String myInquiries = '$apiVersion/users/me/inquiries';
 
+  // Projects
+  static const String projects = '$apiVersion/projects/';
+
   // Chat
   static const String conversations = '$apiVersion/conversations/';
   static const String startConversation = '$apiVersion/conversations/start';
