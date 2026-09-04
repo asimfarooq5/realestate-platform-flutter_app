@@ -29,8 +29,10 @@ class _CitiesSectionState extends State<CitiesSection> {
           child: Text(
             'Popular Cities',
             style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontSize: 19,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.2,
+                  color: AppTheme.textPrimary,
             ),
           ),
         ),
@@ -69,7 +71,7 @@ class _CitiesSectionState extends State<CitiesSection> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(18),
                           gradient: LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -140,7 +142,7 @@ class _CitiesSectionState extends State<CitiesSection> {
                   return Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(18),
                     ),
                   );
                 },

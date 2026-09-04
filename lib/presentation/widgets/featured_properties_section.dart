@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/property_list_screen.dart';
 import 'package:malkiyat_app/presentation/widgets/property_card.dart';
@@ -36,8 +37,10 @@ class _FeaturedPropertiesSectionState extends State<FeaturedPropertiesSection> {
               const Text(
                 'Featured Properties',
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.2,
+                  color: AppTheme.textPrimary,
                 ),
               ),
               TextButton(

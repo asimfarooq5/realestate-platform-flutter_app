@@ -42,8 +42,10 @@ class PropertyTypesSection extends StatelessWidget {
           child: Text(
             'Property Types',
             style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontSize: 19,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.2,
+                  color: AppTheme.textPrimary,
             ),
           ),
         ),

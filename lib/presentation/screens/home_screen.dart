@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
-import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
-import 'package:malkiyat_app/presentation/screens/property_list_screen.dart';
 import 'package:malkiyat_app/presentation/screens/search_screen.dart';
 import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
 import 'package:malkiyat_app/presentation/screens/profile_screen.dart';
@@ -10,6 +7,7 @@ import 'package:malkiyat_app/presentation/widgets/featured_properties_section.da
 import 'package:malkiyat_app/presentation/widgets/cities_section.dart';
 import 'package:malkiyat_app/presentation/widgets/property_types_section.dart';
 import 'package:malkiyat_app/presentation/widgets/search_bar_widget.dart';
+import 'package:malkiyat_app/presentation/widgets/floating_bottom_nav.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,32 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: FloatingBottomNav(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search_outlined),
-            activeIcon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
-            activeIcon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
       ),
     );
   }
@@ -68,87 +43,77 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        // App Bar with Search
-        SliverAppBar(
-          expandedHeight: 200,
-          floating: false,
-          pinned: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: const Text('Malkiyat'),
-            background: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [AppTheme.primaryColor, AppTheme.primaryDark],
-                ),
-              ),
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 40),
-                      const Text(
-                        'Find Your Dream Home',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Discover properties across Pakistan',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      SearchBarWidget(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const SearchScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+    return Column(
+      children: [
+        // Fixed gradient header — mirrors ZippeeHomes' diagonal
+        // navy-to-blue AppHeader with rounded bottom corners. Unlike a
+        // SliverAppBar this never collapses/shows a title over the search
+        // bar while scrolling.
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: AppTheme.headerGradient,
+            ),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+          ),
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Find Your Dream Home',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.3,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Discover properties across Pakistan',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SearchBarWidget(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SearchScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),
         ),
 
-        // Content
-        SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
-
-              // Property Types
-              const PropertyTypesSection(),
-
-              const SizedBox(height: 24),
-
-              // Featured Properties
-              const FeaturedPropertiesSection(),
-
-              const SizedBox(height: 24),
-
-              // Cities
-              const CitiesSection(),
-
-              const SizedBox(height: 32),
-            ],
+        // Scrolling content
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                SizedBox(height: 20),
+                PropertyTypesSection(),
+                SizedBox(height: 24),
+                FeaturedPropertiesSection(),
+                SizedBox(height: 24),
+                CitiesSection(),
+                SizedBox(height: 32),
+              ],
+            ),
           ),
         ),
       ],

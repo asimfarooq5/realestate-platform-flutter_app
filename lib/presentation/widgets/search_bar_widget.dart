@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:malkiyat_app/core/theme/app_theme.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final VoidCallback? onTap;
@@ -10,41 +11,43 @@ class SearchBarWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppTheme.border, width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+              color: AppTheme.navy.withValues(alpha: 0.08),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
             ),
           ],
         ),
         child: Row(
           children: [
-            const Icon(Icons.search, color: Colors.grey),
+            const Icon(Icons.search, color: AppTheme.textMuted),
             const SizedBox(width: 12),
             const Expanded(
               child: Text(
                 'Search by location, property type...',
                 style: TextStyle(
-                  color: Colors.grey,
+                  color: AppTheme.textMuted,
                   fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(8),
+                color: AppTheme.surfaceAlt,
+                borderRadius: BorderRadius.circular(999),
               ),
               child: const Icon(
                 Icons.tune,
-                size: 20,
-                color: Colors.grey,
+                size: 18,
+                color: AppTheme.primaryColor,
               ),
             ),
           ],
