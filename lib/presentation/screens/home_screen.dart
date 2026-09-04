@@ -8,8 +8,7 @@ import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/profile_screen.dart';
 import 'package:malkiyat_app/presentation/widgets/featured_properties_section.dart';
 import 'package:malkiyat_app/presentation/widgets/nearby_properties_section.dart';
-import 'package:malkiyat_app/presentation/widgets/cities_section.dart';
-import 'package:malkiyat_app/presentation/widgets/real_estate_categories_section.dart';
+import 'package:malkiyat_app/presentation/widgets/homes_for_you_section.dart';
 import 'package:malkiyat_app/presentation/widgets/list_property_banner.dart';
 import 'package:malkiyat_app/presentation/widgets/home_header.dart';
 import 'package:malkiyat_app/presentation/widgets/floating_bottom_nav.dart';
@@ -71,13 +70,11 @@ class HomeContent extends StatelessWidget {
                   SizedBox(height: 16),
                   ListPropertyBanner(),
                   SizedBox(height: 24),
-                  RealEstateCategoriesSection(),
-                  SizedBox(height: 24),
                   NearbyPropertiesSection(),
                   SizedBox(height: 24),
                   FeaturedPropertiesSection(),
                   SizedBox(height: 24),
-                  CitiesSection(),
+                  HomesForYouSection(),
                   SizedBox(height: 32),
                 ],
               ),
