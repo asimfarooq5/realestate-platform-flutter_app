@@ -74,6 +74,8 @@ class ApiClient {
     int? bedrooms,
     String? search,
     bool? featured,
+    double? nearLat,
+    double? nearLng,
   }) async {
     final queryParams = <String, dynamic>{
       'page': page,
@@ -87,6 +89,8 @@ class ApiClient {
       if (bedrooms != null) 'bedrooms': bedrooms,
       if (search != null) 'search': search,
       if (featured != null) 'featured': featured,
+      if (nearLat != null) 'near_lat': nearLat,
+      if (nearLng != null) 'near_lng': nearLng,
     };
 
     final response = await _dio.get(

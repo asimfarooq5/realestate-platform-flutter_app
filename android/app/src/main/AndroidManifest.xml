@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Required for network access to the Malkiyat API -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Used to show nearby property listings -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:label="Malkiyat"
         android:name="${applicationName}"

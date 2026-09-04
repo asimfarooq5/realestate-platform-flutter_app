@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
@@ -131,14 +132,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   
                   const SizedBox(height: 16),
                   
-                  // Phone
+                  // Phone — Pakistan-only, so the +92 country code is fixed
+                  // rather than offering a country picker.
                   TextFormField(
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
+                    maxLength: 10,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
                       labelText: 'Phone Number',
                       prefixIcon: Icon(Icons.phone_outlined),
+                      prefixText: '+92 ',
+                      counterText: '',
+                      hintText: '3XX XXXXXXX',
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return null;
+                      if (!RegExp(r'^3\d{9}$').hasMatch(value)) {
+                        return 'Enter a valid Pakistani mobile number';
+                      }
+                      return null;
+                    },
                   ),
                   
                   const SizedBox(height: 16),
@@ -252,7 +266,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           email: _emailController.text,
                                           password: _passwordController.text,
                                           name: _nameController.text,
-                                          phone: _phoneController.text,
+                                          phone: _phoneController.text.isEmpty
+                                              ? null
+                                              : '+92${_phoneController.text}',
                                           role: _selectedRole,
                                         ),
                                       );

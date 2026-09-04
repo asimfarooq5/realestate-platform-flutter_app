@@ -18,6 +18,8 @@ class PropertyRepository {
     int? bedrooms,
     String? search,
     bool? featured,
+    double? nearLat,
+    double? nearLng,
   }) async {
     return _apiClient.getProperties(
       page: page,
@@ -31,6 +33,8 @@ class PropertyRepository {
       bedrooms: bedrooms,
       search: search,
       featured: featured,
+      nearLat: nearLat,
+      nearLng: nearLng,
     );
   }
 

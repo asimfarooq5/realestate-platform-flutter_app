@@ -19,6 +19,8 @@ class LoadProperties extends PropertyEvent {
   final int? bedrooms;
   final bool? featured;
   final String? search;
+  final double? nearLat;
+  final double? nearLng;
 
   const LoadProperties({
     this.page = 1,
@@ -32,6 +34,8 @@ class LoadProperties extends PropertyEvent {
     this.bedrooms,
     this.featured,
     this.search,
+    this.nearLat,
+    this.nearLng,
   });
 
   @override
@@ -47,6 +51,8 @@ class LoadProperties extends PropertyEvent {
         bedrooms,
         featured,
         search,
+        nearLat,
+        nearLng,
       ];
 }
 

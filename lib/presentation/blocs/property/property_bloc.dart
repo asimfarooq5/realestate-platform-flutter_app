@@ -44,6 +44,8 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
         bedrooms: event.bedrooms,
         featured: event.featured,
         search: event.search,
+        nearLat: event.nearLat,
+        nearLng: event.nearLng,
       );
       _allProperties.addAll(response.properties);
       emit(PropertiesLoaded(

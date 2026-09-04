@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:malkiyat_app/core/di/injection.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/property_list_screen.dart';
@@ -12,10 +13,23 @@ class CitiesSection extends StatefulWidget {
 }
 
 class _CitiesSectionState extends State<CitiesSection> {
+  // A dedicated bloc instance — the home screen's sections (featured,
+  // nearby, cities) used to share one global PropertyBloc, so whichever
+  // section's fetch resolved last would blank out the others (they only
+  // render for their own state type and fall back to a loading placeholder
+  // for everything else).
+  final PropertyBloc _bloc = sl<PropertyBloc>();
+
   @override
   void initState() {
     super.initState();
-    context.read<PropertyBloc>().add(LoadCities());
+    _bloc.add(LoadCities());
+  }
+
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 
   @override
@@ -43,6 +57,7 @@ class _CitiesSectionState extends State<CitiesSection> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: BlocBuilder<PropertyBloc, PropertyState>(
+            bloc: _bloc,
             builder: (context, state) {
               if (state is CitiesLoaded) {
                 return GridView.builder(

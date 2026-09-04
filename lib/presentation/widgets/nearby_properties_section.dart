@@ -1,30 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/di/injection.dart';
+import 'package:malkiyat_app/core/services/location_service.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
-import 'package:malkiyat_app/presentation/screens/property_list_screen.dart';
 import 'package:malkiyat_app/presentation/widgets/property_card.dart';
 import 'package:malkiyat_app/presentation/widgets/loading_shimmer.dart';
 
-class FeaturedPropertiesSection extends StatefulWidget {
-  const FeaturedPropertiesSection({super.key});
+/// Nearby listings, sorted by distance from the device's current location.
+/// Requests location permission on first mount; if the user denies it (or
+/// location is off), the section just doesn't render — the rest of the
+/// home screen is unaffected.
+class NearbyPropertiesSection extends StatefulWidget {
+  const NearbyPropertiesSection({super.key});
 
   @override
-  State<FeaturedPropertiesSection> createState() =>
-      _FeaturedPropertiesSectionState();
+  State<NearbyPropertiesSection> createState() => _NearbyPropertiesSectionState();
 }
 
-class _FeaturedPropertiesSectionState extends State<FeaturedPropertiesSection> {
-  // Dedicated bloc instance so this section's PropertiesLoaded state can't
-  // be clobbered by (or clobber) the Cities/Nearby sections sharing the
-  // home screen — see the note in cities_section.dart.
+class _NearbyPropertiesSectionState extends State<NearbyPropertiesSection> {
   final PropertyBloc _bloc = sl<PropertyBloc>();
+  final LocationService _locationService = sl<LocationService>();
+  bool _permissionDenied = false;
 
   @override
   void initState() {
     super.initState();
-    _bloc.add(const LoadProperties(featured: true, limit: 4));
+    _loadNearby();
+  }
+
+  Future<void> _loadNearby() async {
+    final position = await _locationService.getCurrentLocation();
+    if (!mounted) return;
+    if (position == null) {
+      setState(() => _permissionDenied = true);
+      return;
+    }
+    _bloc.add(LoadProperties(
+      limit: 6,
+      nearLat: position.latitude,
+      nearLng: position.longitude,
+    ));
   }
 
   @override
@@ -35,51 +51,32 @@ class _FeaturedPropertiesSectionState extends State<FeaturedPropertiesSection> {
 
   @override
   Widget build(BuildContext context) {
+    if (_permissionDenied) {
+      return const SizedBox.shrink();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Featured Properties',
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.2,
-                  color: AppTheme.textPrimary,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const PropertyListScreen(
-                        title: 'Featured Properties',
-                        featured: true,
-                      ),
-                    ),
-                  );
-                },
-                child: const Text('See All'),
-              ),
-            ],
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Near You',
+            style: TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.w800,
+              letterSpacing: -0.2,
+              color: AppTheme.textPrimary,
+            ),
           ),
         ),
-
         const SizedBox(height: 8),
-
-        // Properties List
         SizedBox(
           height: 320,
           child: BlocBuilder<PropertyBloc, PropertyState>(
             bloc: _bloc,
             builder: (context, state) {
-              if (state is PropertyLoading) {
+              if (state is PropertyLoading || state is PropertyInitial) {
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -87,10 +84,7 @@ class _FeaturedPropertiesSectionState extends State<FeaturedPropertiesSection> {
                   itemBuilder: (context, index) {
                     return const Padding(
                       padding: EdgeInsets.only(right: 16),
-                      child: SizedBox(
-                        width: 280,
-                        child: PropertyCardShimmer(),
-                      ),
+                      child: SizedBox(width: 280, child: PropertyCardShimmer()),
                     );
                   },
                 );
@@ -98,11 +92,8 @@ class _FeaturedPropertiesSectionState extends State<FeaturedPropertiesSection> {
 
               if (state is PropertiesLoaded) {
                 if (state.properties.isEmpty) {
-                  return const Center(
-                    child: Text('No featured properties available'),
-                  );
+                  return const SizedBox.shrink();
                 }
-
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -111,10 +102,7 @@ class _FeaturedPropertiesSectionState extends State<FeaturedPropertiesSection> {
                     final property = state.properties[index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 16),
-                      child: SizedBox(
-                        width: 280,
-                        child: PropertyCard(property: property),
-                      ),
+                      child: SizedBox(width: 280, child: PropertyCard(property: property)),
                     );
                   },
                 );

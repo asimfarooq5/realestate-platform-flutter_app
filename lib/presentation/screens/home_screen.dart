@@ -4,6 +4,7 @@ import 'package:malkiyat_app/presentation/screens/search_screen.dart';
 import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
 import 'package:malkiyat_app/presentation/screens/profile_screen.dart';
 import 'package:malkiyat_app/presentation/widgets/featured_properties_section.dart';
+import 'package:malkiyat_app/presentation/widgets/nearby_properties_section.dart';
 import 'package:malkiyat_app/presentation/widgets/cities_section.dart';
 import 'package:malkiyat_app/presentation/widgets/property_types_section.dart';
 import 'package:malkiyat_app/presentation/widgets/search_bar_widget.dart';
@@ -107,6 +108,8 @@ class HomeContent extends StatelessWidget {
               children: const [
                 SizedBox(height: 20),
                 PropertyTypesSection(),
+                SizedBox(height: 24),
+                NearbyPropertiesSection(),
                 SizedBox(height: 24),
                 FeaturedPropertiesSection(),
                 SizedBox(height: 24),
