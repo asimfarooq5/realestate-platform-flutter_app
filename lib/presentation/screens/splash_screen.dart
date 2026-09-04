@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.primaryColor,
+      backgroundColor: AppTheme.navy,
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is Authenticated || state is RegistrationSuccess) {
@@ -83,29 +83,14 @@ class _SplashScreenState extends State<SplashScreen>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.home,
-                          size: 60,
-                          color: AppTheme.primaryColor,
-                        ),
+                      Image.asset(
+                        'assets/icons/app_icon.png',
+                        width: 140,
+                        height: 140,
                       ),
                       const SizedBox(height: 24),
                       const Text(
-                        'ZAMEEN',
+                        'MALKIYAT',
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
