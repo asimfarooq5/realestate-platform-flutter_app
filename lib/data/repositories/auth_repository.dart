@@ -34,6 +34,20 @@ class AuthRepository {
     return _apiClient.register(request);
   }
 
+  Future<User> updateProfile({String? name, String? phone}) async {
+    final user = await _apiClient.updateProfile(name: name, phone: phone);
+    final token = await _tokenStorage.getToken();
+    if (token != null) {
+      await _tokenStorage.saveSession(token, user);
+    }
+    return user;
+  }
+
+  Future<void> deactivateAccount() async {
+    await _apiClient.deactivateAccount();
+    await clearAuthToken();
+  }
+
   void setAuthToken(String token) {
     _apiClient.setAuthToken(token);
   }

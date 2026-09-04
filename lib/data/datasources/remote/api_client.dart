@@ -62,6 +62,28 @@ class ApiClient {
     return User.fromJson(response.data);
   }
 
+  Future<User> updateProfile({String? name, String? phone}) async {
+    final response = await _dio.put(
+      ApiConstants.me,
+      data: {
+        if (name != null) 'name': name,
+        if (phone != null) 'phone': phone,
+      },
+    );
+    return User.fromJson(response.data);
+  }
+
+  Future<void> deactivateAccount() async {
+    await _dio.post('${ApiConstants.me}/deactivate');
+  }
+
+  Future<List<Property>> getMyProperties() async {
+    final response = await _dio.get(ApiConstants.myProperties);
+    return (response.data as List)
+        .map((json) => Property.fromJson(json))
+        .toList();
+  }
+
   // Properties
   Future<PropertyListResponse> getProperties({
     int page = 1,

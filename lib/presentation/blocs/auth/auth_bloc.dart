@@ -14,6 +14,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterRequested>(_onRegisterRequested);
     on<LogoutRequested>(_onLogoutRequested);
     on<CheckAuthStatus>(_onCheckAuthStatus);
+    on<UpdateProfileRequested>(_onUpdateProfileRequested);
+    on<DeactivateAccountRequested>(_onDeactivateAccountRequested);
   }
 
   Future<void> _onLoginRequested(
@@ -77,6 +79,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(Authenticated(user));
     } else {
       emit(Unauthenticated());
+    }
+  }
+
+  Future<void> _onUpdateProfileRequested(
+    UpdateProfileRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      final user = await _authRepository.updateProfile(name: event.name, phone: event.phone);
+      emit(Authenticated(user));
+    } catch (e) {
+      emit(AuthError(_friendlyError(e)));
+    }
+  }
+
+  Future<void> _onDeactivateAccountRequested(
+    DeactivateAccountRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      await _authRepository.deactivateAccount();
+      emit(Unauthenticated());
+    } catch (e) {
+      emit(AuthError(_friendlyError(e)));
     }
   }
 
