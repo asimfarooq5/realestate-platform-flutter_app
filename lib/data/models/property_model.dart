@@ -124,6 +124,8 @@ abstract class Inquiry with _$Inquiry {
     @Default('PENDING') String status,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    @JsonKey(name: 'property_title') String? propertyTitle,
+    @JsonKey(name: 'property_slug') String? propertySlug,
   }) = _Inquiry;
 
   factory Inquiry.fromJson(Map<String, dynamic> json) =>

@@ -94,3 +94,14 @@ class FavoriteToggled extends PropertyState {
   @override
   List<Object?> get props => [propertyId, isFavorite];
 }
+
+class InquiriesLoading extends PropertyState {}
+
+class InquiriesLoaded extends PropertyState {
+  final List<Inquiry> inquiries;
+
+  const InquiriesLoaded(this.inquiries);
+
+  @override
+  List<Object?> get props => [inquiries];
+}

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
 import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/register_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -99,7 +101,10 @@ class ProfileScreen extends StatelessWidget {
           _buildMenuItem(
             icon: Icons.favorite_outline,
             title: 'My Favorites',
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const FavoritesScreen()),
+            ),
           ),
           _buildMenuItem(
             icon: Icons.home_outlined,
@@ -109,7 +114,10 @@ class ProfileScreen extends StatelessWidget {
           _buildMenuItem(
             icon: Icons.message_outlined,
             title: 'My Inquiries',
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const MessagesScreen()),
+            ),
           ),
           _buildMenuItem(
             icon: Icons.notifications_outlined,

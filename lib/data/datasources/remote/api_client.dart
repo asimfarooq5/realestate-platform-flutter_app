@@ -171,4 +171,11 @@ class ApiClient {
         .map((json) => Property.fromJson(json))
         .toList();
   }
+
+  Future<List<Inquiry>> getMyInquiries() async {
+    final response = await _dio.get(ApiConstants.myInquiries);
+    return (response.data as List)
+        .map((json) => Inquiry.fromJson(json))
+        .toList();
+  }
 }

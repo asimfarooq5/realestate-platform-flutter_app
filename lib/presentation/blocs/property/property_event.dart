@@ -87,6 +87,8 @@ class SearchProperties extends PropertyEvent {
 
 class LoadFavorites extends PropertyEvent {}
 
+class LoadInquiries extends PropertyEvent {}
+
 class AddFavorite extends PropertyEvent {
   final String propertyId;
 

@@ -17,6 +17,7 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
     on<LoadAreas>(_onLoadAreas);
     on<SearchProperties>(_onSearchProperties);
     on<LoadFavorites>(_onLoadFavorites);
+    on<LoadInquiries>(_onLoadInquiries);
     on<AddFavorite>(_onAddFavorite);
     on<RemoveFavorite>(_onRemoveFavorite);
     on<ToggleFavorite>(_onToggleFavorite);
@@ -133,6 +134,19 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
     }
   }
 
+  Future<void> _onLoadInquiries(
+    LoadInquiries event,
+    Emitter<PropertyState> emit,
+  ) async {
+    emit(InquiriesLoading());
+    try {
+      final inquiries = await _propertyRepository.getMyInquiries();
+      emit(InquiriesLoaded(inquiries));
+    } catch (e) {
+      emit(PropertyError(_friendlyError(e)));
+    }
+  }
+
   Future<void> _onAddFavorite(
     AddFavorite event,
     Emitter<PropertyState> emit,
@@ -199,5 +213,9 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
 
   Future<void> sendInquiry(String propertyId, Inquiry inquiry) async {
     await _propertyRepository.createInquiry(propertyId, inquiry);
+  }
+
+  Future<Property> createProperty(Property property) async {
+    return _propertyRepository.createProperty(property);
   }
 }

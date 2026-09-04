@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:malkiyat_app/core/theme/app_theme.dart';
-import 'package:malkiyat_app/presentation/screens/search_screen.dart';
-import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:malkiyat_app/presentation/screens/add_property_screen.dart';
+import 'package:malkiyat_app/presentation/screens/explore_screen.dart';
+import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/profile_screen.dart';
 import 'package:malkiyat_app/presentation/widgets/featured_properties_section.dart';
 import 'package:malkiyat_app/presentation/widgets/nearby_properties_section.dart';
 import 'package:malkiyat_app/presentation/widgets/cities_section.dart';
-import 'package:malkiyat_app/presentation/widgets/property_types_section.dart';
-import 'package:malkiyat_app/presentation/widgets/search_bar_widget.dart';
+import 'package:malkiyat_app/presentation/widgets/real_estate_categories_section.dart';
+import 'package:malkiyat_app/presentation/widgets/list_property_banner.dart';
+import 'package:malkiyat_app/presentation/widgets/home_header.dart';
 import 'package:malkiyat_app/presentation/widgets/floating_bottom_nav.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,10 +26,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     const HomeContent(),
-    const SearchScreen(),
-    const FavoritesScreen(),
+    const ExploreScreen(),
+    const MessagesScreen(),
     const ProfileScreen(),
   ];
+
+  void _onAddTap() {
+    final authState = context.read<AuthBloc>().state;
+    if (authState is! Authenticated) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+      return;
+    }
+    Navigator.push(context, MaterialPageRoute(builder: (_) => const AddPropertyScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: FloatingBottomNav(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
+        onAddTap: _onAddTap,
       ),
     );
   }
@@ -44,82 +58,33 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Fixed gradient header — mirrors ZippeeHomes' diagonal
-        // navy-to-blue AppHeader with rounded bottom corners. Unlike a
-        // SliverAppBar this never collapses/shows a title over the search
-        // bar while scrolling.
-        Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: AppTheme.headerGradient,
-            ),
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
-          ),
-          child: SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+    return SafeArea(
+      bottom: false,
+      child: Column(
+        children: [
+          const HomeHeader(),
+          Expanded(
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Find Your Dream Home',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.3,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Discover properties across Pakistan',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  SearchBarWidget(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const SearchScreen(),
-                        ),
-                      );
-                    },
-                  ),
+                children: const [
+                  SizedBox(height: 16),
+                  ListPropertyBanner(),
+                  SizedBox(height: 24),
+                  RealEstateCategoriesSection(),
+                  SizedBox(height: 24),
+                  NearbyPropertiesSection(),
+                  SizedBox(height: 24),
+                  FeaturedPropertiesSection(),
+                  SizedBox(height: 24),
+                  CitiesSection(),
+                  SizedBox(height: 32),
                 ],
               ),
             ),
           ),
-        ),
-
-        // Scrolling content
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                SizedBox(height: 20),
-                PropertyTypesSection(),
-                SizedBox(height: 24),
-                NearbyPropertiesSection(),
-                SizedBox(height: 24),
-                FeaturedPropertiesSection(),
-                SizedBox(height: 24),
-                CitiesSection(),
-                SizedBox(height: 32),
-              ],
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

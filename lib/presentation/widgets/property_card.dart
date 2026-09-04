@@ -112,6 +112,27 @@ class PropertyCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  // Price badge
+                  Positioned(
+                    left: 12,
+                    bottom: 12,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppTheme.navy.withValues(alpha: 0.88),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        '${property.priceUnit} ${_formatPrice(property.price)}'
+                        '${property.status == 'FOR_RENT' ? '/mo' : ''}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -182,18 +203,9 @@ class PropertyCard extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  // Price and Type
+                  // Type — price now shows as a badge on the image itself.
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        '${property.priceUnit} ${_formatPrice(property.price)}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.primaryColor,
-                        ),
-                      ),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,

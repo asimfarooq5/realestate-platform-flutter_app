@@ -81,4 +81,8 @@ class PropertyRepository {
   Future<List<Property>> getMyFavorites() async {
     return _apiClient.getMyFavorites();
   }
+
+  Future<List<Inquiry>> getMyInquiries() async {
+    return _apiClient.getMyInquiries();
+  }
 }

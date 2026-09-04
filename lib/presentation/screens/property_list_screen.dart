@@ -8,6 +8,7 @@ class PropertyListScreen extends StatefulWidget {
   final String? title;
   final String? cityId;
   final String? type;
+  final String? status;
   final bool? featured;
 
   const PropertyListScreen({
@@ -15,6 +16,7 @@ class PropertyListScreen extends StatefulWidget {
     this.title,
     this.cityId,
     this.type,
+    this.status,
     this.featured,
   });
 
@@ -40,6 +42,7 @@ class _PropertyListScreenState extends State<PropertyListScreen> {
             limit: 12,
             cityId: widget.cityId,
             type: _selectedType,
+            status: widget.status,
             bedrooms: _bedrooms,
             featured: widget.featured,
           ),
