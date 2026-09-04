@@ -1,0 +1,154 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:malkiyat_app/core/theme/app_theme.dart';
+import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
+import 'package:malkiyat_app/presentation/screens/property_list_screen.dart';
+
+class CitiesSection extends StatefulWidget {
+  const CitiesSection({super.key});
+
+  @override
+  State<CitiesSection> createState() => _CitiesSectionState();
+}
+
+class _CitiesSectionState extends State<CitiesSection> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PropertyBloc>().add(LoadCities());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'Popular Cities',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        // Cities Grid
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: BlocBuilder<PropertyBloc, PropertyState>(
+            builder: (context, state) {
+              if (state is CitiesLoaded) {
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.5,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                  ),
+                  itemCount: state.cities.take(6).length,
+                  itemBuilder: (context, index) {
+                    final city = state.cities[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => PropertyListScreen(
+                              title: 'Properties in ${city.name}',
+                              cityId: city.id,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppTheme.primaryColor,
+                              AppTheme.primaryDark,
+                            ],
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            // Background pattern
+                            Positioned(
+                              right: -20,
+                              bottom: -20,
+                              child: Icon(
+                                Icons.location_city,
+                                size: 80,
+                                color: Colors.white.withOpacity(0.1),
+                              ),
+                            ),
+                            // Content
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    city.name,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '${city.propertyCount} Properties',
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(0.8),
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+
+              // Loading state
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.5,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                ),
+                itemCount: 6,
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}

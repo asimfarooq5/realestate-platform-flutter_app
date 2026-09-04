@@ -1,4 +1,4 @@
-# Zameen Real Estate App - Flutter
+# Malkiyat Real Estate App - Flutter
 
 A professional, cross-platform real estate mobile application built with Flutter.
 
