@@ -5,6 +5,7 @@ import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
 import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
+import 'package:malkiyat_app/presentation/screens/notifications_screen.dart';
 import 'package:malkiyat_app/presentation/screens/register_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -122,7 +123,10 @@ class ProfileScreen extends StatelessWidget {
           _buildMenuItem(
             icon: Icons.notifications_outlined,
             title: 'Notifications',
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+            ),
           ),
           _buildMenuItem(
             icon: Icons.help_outline,

@@ -5,6 +5,7 @@ import 'package:malkiyat_app/core/services/location_service.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/explore_screen.dart';
+import 'package:malkiyat_app/presentation/screens/notifications_screen.dart';
 import 'package:malkiyat_app/presentation/screens/profile_screen.dart';
 
 /// The home tab's header — logo/wordmark, current location, notifications
@@ -97,7 +98,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                 icon: Icons.notifications_none_rounded,
                 background: AppTheme.surfaceAlt,
                 iconColor: AppTheme.textPrimary,
-                onTap: () {},
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+                ),
               ),
               const SizedBox(width: 10),
               BlocBuilder<AuthBloc, AuthState>(
