@@ -24,6 +24,11 @@ class ApiConstants {
   static const String myProperties = '$apiVersion/users/me/properties';
   static const String myInquiries = '$apiVersion/users/me/inquiries';
 
+  // Chat
+  static const String conversations = '$apiVersion/conversations/';
+  static const String startConversation = '$apiVersion/conversations/start';
+  static const String communityPosts = '$apiVersion/community/posts';
+
   // Timeout
   static const int connectionTimeout = 30000;
   static const int receiveTimeout = 30000;

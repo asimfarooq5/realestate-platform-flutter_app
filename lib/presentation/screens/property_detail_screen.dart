@@ -4,9 +4,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/data/models/property_model.dart';
+import 'package:malkiyat_app/core/di/injection.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:malkiyat_app/presentation/blocs/chat/chat_bloc.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
+import 'package:malkiyat_app/presentation/screens/chat_screen.dart';
 import 'package:malkiyat_app/presentation/widgets/loading_shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -52,11 +55,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     context.read<PropertyBloc>().add(ToggleFavorite(propertyId));
   }
 
-  Future<void> _sendInquiry(Property property) async {
+  Future<void> _messageOwner(Property property) async {
     final authState = context.read<AuthBloc>().state;
     if (authState is! Authenticated) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please sign in to send an inquiry')),
+        const SnackBar(content: Text('Please sign in to message the owner')),
       );
       Navigator.push(
         context,
@@ -65,41 +68,44 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       return;
     }
 
-    final user = (authState as Authenticated).user;
+    if (property.ownerId == authState.user.id) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("You own this listing")),
+      );
+      return;
+    }
+
     setState(() => _inquiryLoading = true);
+    final chatBloc = sl<ChatBloc>();
     try {
-      await context.read<PropertyBloc>().sendInquiry(
-            property.id,
-            Inquiry(
-              id: '',
-              userId: user.id,
-              propertyId: property.id,
-              name: user.name ?? user.email,
-              email: user.email,
-              message:
-                  'I am interested in this property. Please contact me with more details.',
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
+      chatBloc.add(StartConversation(
+        otherUserId: property.ownerId,
+        propertyId: property.id,
+        message: 'Hi, I\'m interested in "${property.title}". Is it still available?',
+      ));
+      final state = await chatBloc.stream.firstWhere(
+        (s) => s is ConversationStarted || s is ChatError,
+      );
+      if (!mounted) return;
+      if (state is ConversationStarted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ChatScreen(
+              conversationId: state.conversation.id,
+              otherUserName: state.conversation.otherUser?.name ??
+                  state.conversation.otherUser?.email ??
+                  'Owner',
             ),
-          );
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Inquiry sent! The owner will contact you soon.'),
-            backgroundColor: AppTheme.successColor,
           ),
         );
-      }
-    } catch (_) {
-      if (mounted) {
+      } else if (state is ChatError) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to send inquiry. Please try again.'),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text(state.message), backgroundColor: Colors.red),
         );
       }
     } finally {
+      chatBloc.close();
       if (mounted) setState(() => _inquiryLoading = false);
     }
   }
@@ -356,22 +362,22 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
                 const SizedBox(height: 12),
 
-                // Send Inquiry
+                // Message Owner — starts a real 1:1 chat thread
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
                     onPressed: _inquiryLoading
                         ? null
-                        : () => _sendInquiry(property),
+                        : () => _messageOwner(property),
                     icon: _inquiryLoading
                         ? const SizedBox(
                             height: 18,
                             width: 18,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Icon(Icons.message_outlined),
+                        : const Icon(Icons.chat_bubble_outline),
                     label: Text(
-                      _inquiryLoading ? 'Sending...' : 'Send Inquiry',
+                      _inquiryLoading ? 'Starting chat...' : 'Message Owner',
                     ),
                   ),
                 ),

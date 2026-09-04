@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:malkiyat_app/core/constants/api_constants.dart';
+import 'package:malkiyat_app/data/models/chat_model.dart';
 import 'package:malkiyat_app/data/models/property_model.dart';
 import 'package:malkiyat_app/data/models/user_model.dart';
 
@@ -176,6 +177,52 @@ class ApiClient {
     final response = await _dio.get(ApiConstants.myInquiries);
     return (response.data as List)
         .map((json) => Inquiry.fromJson(json))
+        .toList();
+  }
+
+  // Chat
+  Future<List<Conversation>> getConversations() async {
+    final response = await _dio.get(ApiConstants.conversations);
+    return (response.data as List)
+        .map((json) => Conversation.fromJson(json))
+        .toList();
+  }
+
+  Future<Conversation> startConversation({
+    required String otherUserId,
+    String? propertyId,
+    required String message,
+  }) async {
+    final response = await _dio.post(
+      ApiConstants.startConversation,
+      data: {
+        'other_user_id': otherUserId,
+        if (propertyId != null) 'property_id': propertyId,
+        'message': message,
+      },
+    );
+    return Conversation.fromJson(response.data);
+  }
+
+  Future<List<ChatMessage>> getMessages(String conversationId) async {
+    final response = await _dio.get('${ApiConstants.conversations}$conversationId/messages');
+    return (response.data as List)
+        .map((json) => ChatMessage.fromJson(json))
+        .toList();
+  }
+
+  Future<ChatMessage> sendChatMessage(String conversationId, String text) async {
+    final response = await _dio.post(
+      '${ApiConstants.conversations}$conversationId/messages',
+      data: {'text': text},
+    );
+    return ChatMessage.fromJson(response.data);
+  }
+
+  Future<List<CommunityPost>> getCommunityPosts() async {
+    final response = await _dio.get(ApiConstants.communityPosts);
+    return (response.data as List)
+        .map((json) => CommunityPost.fromJson(json))
         .toList();
   }
 }
