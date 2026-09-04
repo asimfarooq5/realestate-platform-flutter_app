@@ -11,6 +11,7 @@ abstract class User with _$User {
     String? password,
     String? name,
     String? phone,
+    @JsonKey(name: 'date_of_birth') String? dateOfBirth,
     @Default('BUYER') String role,
     String? image,
     @JsonKey(name: 'email_verified') DateTime? emailVerified,
@@ -72,6 +73,7 @@ abstract class RegisterRequest with _$RegisterRequest {
     required String password,
     String? name,
     String? phone,
+    @JsonKey(name: 'date_of_birth') String? dateOfBirth,
     @Default('BUYER') String role,
   }) = _RegisterRequest;
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
-import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 
 /// A promotional CTA banner, in the same visual slot ZippeeHomes uses for
 /// its rotating "Signature Experience" carousel — but pointed at something
@@ -62,7 +62,7 @@ class ListPropertyBanner extends StatelessWidget {
                 onTap: () {
                   final authState = context.read<AuthBloc>().state;
                   if (authState is! Authenticated) {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const AuthLandingScreen()));
                     return;
                   }
                   // TODO: navigate to the add-property flow once it exists.

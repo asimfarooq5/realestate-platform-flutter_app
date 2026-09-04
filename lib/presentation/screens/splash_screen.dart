@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/home_screen.dart';
-import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
             );
           } else if (state is Unauthenticated) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
+              MaterialPageRoute(builder: (_) => const AuthLandingScreen()),
             );
           }
         },

@@ -6,7 +6,7 @@ import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/data/models/property_model.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
-import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/widgets/loading_shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -45,7 +45,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       );
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
+        MaterialPageRoute(builder: (_) => const AuthLandingScreen()),
       );
       return;
     }
@@ -60,7 +60,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       );
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
+        MaterialPageRoute(builder: (_) => const AuthLandingScreen()),
       );
       return;
     }

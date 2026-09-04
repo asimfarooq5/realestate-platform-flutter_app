@@ -20,6 +20,7 @@ class AuthRepository {
     required String password,
     String? name,
     String? phone,
+    String? dateOfBirth,
     String role = 'BUYER',
   }) async {
     final request = RegisterRequest(
@@ -27,6 +28,7 @@ class AuthRepository {
       password: password,
       name: name,
       phone: phone,
+      dateOfBirth: dateOfBirth,
       role: role,
     );
     return _apiClient.register(request);

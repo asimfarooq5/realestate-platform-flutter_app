@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
 import 'package:malkiyat_app/presentation/widgets/property_card.dart';
-import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -52,7 +52,7 @@ class FavoritesScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                  MaterialPageRoute(builder: (_) => const AuthLandingScreen()),
                 );
               },
               child: const Text('Sign In'),

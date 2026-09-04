@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
-import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/register_screen.dart';
 
@@ -29,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
           if (state is Unauthenticated) {
             // User logged out — go back to the login screen
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
+              MaterialPageRoute(builder: (_) => const AuthLandingScreen()),
               (route) => false,
             );
           }
@@ -193,7 +193,7 @@ class ProfileScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const LoginScreen(),
+                    builder: (_) => const AuthLandingScreen(),
                   ),
                 );
               },

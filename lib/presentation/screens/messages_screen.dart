@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
-import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/screens/property_detail_screen.dart';
 
 /// Inquiries the current user has sent to sellers/agents — the closest
@@ -43,7 +43,7 @@ class MessagesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen())),
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AuthLandingScreen())),
               child: const Text('Sign In'),
             ),
           ],

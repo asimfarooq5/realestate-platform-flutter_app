@@ -22,6 +22,7 @@ class RegisterRequested extends AuthEvent {
   final String password;
   final String? name;
   final String? phone;
+  final String? dateOfBirth;
   final String role;
 
   const RegisterRequested({
@@ -29,11 +30,12 @@ class RegisterRequested extends AuthEvent {
     required this.password,
     this.name,
     this.phone,
+    this.dateOfBirth,
     this.role = 'BUYER',
   });
 
   @override
-  List<Object?> get props => [email, password, name, phone, role];
+  List<Object?> get props => [email, password, name, phone, dateOfBirth, role];
 }
 
 class LogoutRequested extends AuthEvent {}

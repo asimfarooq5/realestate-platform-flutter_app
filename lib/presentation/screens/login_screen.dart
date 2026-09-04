@@ -4,6 +4,7 @@ import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/home_screen.dart';
 import 'package:malkiyat_app/presentation/screens/register_screen.dart';
+import 'package:malkiyat_app/presentation/widgets/google_sign_in_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -191,8 +192,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Expanded(child: Divider()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('or', style: TextStyle(color: AppTheme.textMuted)),
+                      ),
+                      const Expanded(child: Divider()),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const GoogleSignInButton(),
+
                   const SizedBox(height: 24),
-                  
+
                   // Register Link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

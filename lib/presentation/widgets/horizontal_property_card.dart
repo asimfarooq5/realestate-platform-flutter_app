@@ -4,7 +4,7 @@ import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/data/models/property_model.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
-import 'package:malkiyat_app/presentation/screens/login_screen.dart';
+import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/screens/property_detail_screen.dart';
 
 /// Image-left / details-right card used in the "Homes for you" list —
@@ -32,7 +32,7 @@ class HorizontalPropertyCard extends StatelessWidget {
   void _toggleFavorite(BuildContext context) {
     final authState = context.read<AuthBloc>().state;
     if (authState is! Authenticated) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (_) => const AuthLandingScreen()));
       return;
     }
     context.read<PropertyBloc>().add(ToggleFavorite(property.id));
