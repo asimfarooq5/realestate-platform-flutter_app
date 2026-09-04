@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
-import 'package:malkiyat_app/presentation/screens/add_property_screen.dart';
 import 'package:malkiyat_app/presentation/screens/explore_screen.dart';
 import 'package:malkiyat_app/presentation/screens/login_screen.dart';
 import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/profile_screen.dart';
+import 'package:malkiyat_app/presentation/widgets/post_options_sheet.dart';
 import 'package:malkiyat_app/presentation/widgets/featured_properties_section.dart';
 import 'package:malkiyat_app/presentation/widgets/nearby_properties_section.dart';
 import 'package:malkiyat_app/presentation/widgets/homes_for_you_section.dart';
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
       return;
     }
-    Navigator.push(context, MaterialPageRoute(builder: (_) => const AddPropertyScreen()));
+    showPostOptionsSheet(context);
   }
 
   @override
