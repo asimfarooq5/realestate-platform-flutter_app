@@ -36,7 +36,8 @@ android {
 
     defaultConfig {
         applicationId = "com.malkiyat.app"
-        minSdk = flutter.minSdkVersion
+        // ARCore (Tape Measure tool) requires API 24+.
+        minSdk = maxOf(24, flutter.minSdkVersion)
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

@@ -14,7 +14,7 @@ import 'package:malkiyat_app/presentation/screens/community_screen.dart';
 import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
 import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/screens/guide_screen.dart';
-import 'package:malkiyat_app/presentation/screens/installment_calculator_screen.dart';
+import 'package:malkiyat_app/presentation/screens/tools_screen.dart';
 import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/my_properties_screen.dart';
 import 'package:malkiyat_app/presentation/screens/notifications_screen.dart';
@@ -201,7 +201,7 @@ class _AuthenticatedProfileState extends State<_AuthenticatedProfile> {
           child: Text('Malkiyat', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: Colors.grey[500])),
         ),
         _buildMenuItem(icon: Icons.menu_book_outlined, title: 'Malkiyat Guide', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const GuideScreen()))),
-        _buildMenuItem(icon: Icons.calculate_outlined, title: 'Malkiyat Tools', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const InstallmentCalculatorScreen()))),
+        _buildMenuItem(icon: Icons.handyman_outlined, title: 'Malkiyat Tools', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ToolsScreen()))),
         _buildMenuItem(icon: Icons.campaign_outlined, title: 'Malkiyat News', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CommunityScreen()))),
 
         const SizedBox(height: 12),

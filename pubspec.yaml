@@ -39,9 +39,16 @@ dependencies:
   geocoding: ^3.0.0
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
-  
+
+  # Milkiyat Tools (device sensors/camera)
+  sensors_plus: ^7.1.0
+  torch_light: ^1.1.0
+  mobile_scanner: ^7.4.0
+
   # Icons
   cupertino_icons: ^1.0.6
+  arcore_flutter_plus: ^1.0.2
+  vector_math: ^2.2.0
 
 dev_dependencies:
   flutter_test:

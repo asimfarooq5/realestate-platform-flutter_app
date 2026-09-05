@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
+import 'package:malkiyat_app/presentation/screens/account_settings_screen.dart';
 
 /// There's no notifications backend yet (no push tokens, no server-side
 /// events to notify about), so this is an honest empty state rather than
@@ -15,7 +16,10 @@ class NotificationsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_outlined),
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AccountSettingsScreen()),
+            ),
           ),
         ],
       ),
