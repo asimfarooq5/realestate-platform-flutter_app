@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/screens/installment_calculator_screen.dart';
-import 'package:malkiyat_app/presentation/screens/tools/beam_calculator_screen.dart';
-import 'package:malkiyat_app/presentation/screens/tools/building_checklist_screen.dart';
-import 'package:malkiyat_app/presentation/screens/tools/column_calculator_screen.dart';
-import 'package:malkiyat_app/presentation/screens/tools/concrete_calculator_screen.dart';
-import 'package:malkiyat_app/presentation/screens/tools/construction_calculator_screen.dart';
+import 'package:malkiyat_app/presentation/screens/tools/construction_tools_screen.dart';
 import 'package:malkiyat_app/presentation/screens/tools/interview_questions_screen.dart';
-import 'package:malkiyat_app/presentation/screens/tools/rcc_slab_calculator_screen.dart';
 import 'package:malkiyat_app/presentation/screens/tools/smart_tools_screen.dart';
-import 'package:malkiyat_app/presentation/screens/tools/steel_weight_calculator_screen.dart';
 import 'package:malkiyat_app/presentation/screens/tools/unit_converter_screen.dart';
 
 /// "Milkiyat Tools" hub — a growing set of small, real utilities for buyers
-/// and sellers. Add new tools here as their own screen + a _ToolTile entry.
+/// and sellers. Add new tools here as their own screen + a _ToolTile entry
+/// (or into a category sub-hub like ConstructionToolsScreen).
 class ToolsScreen extends StatelessWidget {
   const ToolsScreen({super.key});
 
@@ -31,46 +26,10 @@ class ToolsScreen extends StatelessWidget {
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const InstallmentCalculatorScreen())),
           ),
           _ToolTile(
-            icon: Icons.construction_outlined,
-            title: 'Construction Calculator',
-            subtitle: 'Estimate house construction cost by area and finish level',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ConstructionCalculatorScreen())),
-          ),
-          _ToolTile(
-            icon: Icons.checklist_rtl,
-            title: 'Building Checklist',
-            subtitle: 'Track every stage from land to move-in',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const BuildingChecklistScreen())),
-          ),
-          _ToolTile(
-            icon: Icons.foundation_outlined,
-            title: 'Concrete Calculator',
-            subtitle: 'Cement, sand, and aggregate quantity for a pour',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ConcreteCalculatorScreen())),
-          ),
-          _ToolTile(
-            icon: Icons.grid_on_outlined,
-            title: 'RCC Slab Calculator',
-            subtitle: 'Concrete and reinforcement steel for a slab',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RccSlabCalculatorScreen())),
-          ),
-          _ToolTile(
-            icon: Icons.view_column,
-            title: 'Column Calculator',
-            subtitle: 'Concrete and reinforcement steel for RCC columns',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ColumnCalculatorScreen())),
-          ),
-          _ToolTile(
-            icon: Icons.horizontal_rule,
-            title: 'Beam Calculator',
-            subtitle: 'Concrete and reinforcement steel for RCC beams',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const BeamCalculatorScreen())),
-          ),
-          _ToolTile(
-            icon: Icons.view_column_outlined,
-            title: 'Steel Weight Calculator',
-            subtitle: 'Calculate rebar weight by diameter and length',
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SteelWeightCalculatorScreen())),
+            icon: Icons.engineering_outlined,
+            title: 'Construction Tools',
+            subtitle: 'Concrete, steel, slab, column, and beam calculators',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ConstructionToolsScreen())),
           ),
           _ToolTile(
             icon: Icons.swap_horiz,
