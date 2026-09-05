@@ -8,6 +8,7 @@ import 'package:malkiyat_app/presentation/blocs/chat/chat_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/screens/chat_screen.dart';
 import 'package:malkiyat_app/presentation/screens/community_screen.dart';
+import 'package:malkiyat_app/presentation/widgets/app_search_bar.dart';
 
 /// Chat list — a pinned "Malkiyat Community" row (announcements) plus the
 /// user's real 1:1 conversations, matching ZippeeHomes' Messages tab.
@@ -56,22 +57,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
           const SizedBox(height: 2),
           const Text('Your chats', style: TextStyle(fontSize: 13.5, color: AppTheme.textMuted, fontWeight: FontWeight.w600)),
           const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(999), border: Border.all(color: AppTheme.border)),
-            child: Row(
-              children: [
-                const Icon(Icons.search, color: AppTheme.textMuted, size: 20),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    onChanged: (_) => setState(() {}),
-                    decoration: const InputDecoration(border: InputBorder.none, hintText: 'Search...', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 14)),
-                  ),
-                ),
-              ],
-            ),
+          AppSearchBar(
+            controller: _searchController,
+            hint: 'Search...',
+            actionIcon: Icons.search,
+            onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 14),
           Row(

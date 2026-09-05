@@ -8,6 +8,7 @@ import 'package:malkiyat_app/data/models/property_model.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/property_detail_screen.dart';
 import 'package:malkiyat_app/presentation/widgets/property_card.dart';
+import 'package:malkiyat_app/presentation/widgets/app_search_bar.dart';
 
 enum _Purpose { all, rent, buy }
 
@@ -104,38 +105,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
               onPressed: () => Navigator.pop(context),
             ),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppTheme.backgroundColor,
-                borderRadius: BorderRadius.circular(999),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.search, color: AppTheme.textMuted),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      onSubmitted: (_) => _runSearch(),
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'City, area, or keyword',
-                        hintStyle: TextStyle(color: AppTheme.textMuted, fontSize: 14),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _runSearch,
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: const BoxDecoration(color: AppTheme.accentColor, shape: BoxShape.circle),
-                      child: const Icon(Icons.arrow_forward, color: Colors.white, size: 18),
-                    ),
-                  ),
-                ],
-              ),
+            child: AppSearchBar(
+              controller: _searchController,
+              hint: 'City, area, or keyword',
+              onSubmitted: _runSearch,
             ),
           ),
         ],
