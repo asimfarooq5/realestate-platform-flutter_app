@@ -4,7 +4,10 @@ import 'package:malkiyat_app/core/theme/app_theme.dart';
 /// Floating pill bottom nav bar, matching the ZippeeHomes GlobalBottomNav
 /// look — translucent white pill, hairline border, soft navy-tinted shadow,
 /// a raised orange FAB in the center for posting a listing, and the
-/// remaining four tabs (Home/Explore/Messages/Account) split around it.
+/// remaining four tabs (Home/Favorites/Messages/Account) split around it.
+/// Favorites takes the Explore slot: the map view isn't as central to a
+/// real-estate app as saved/shortlisted listings are, and stays reachable
+/// via the search bar on Home.
 class FloatingBottomNav extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -19,7 +22,7 @@ class FloatingBottomNav extends StatelessWidget {
 
   static const _leftItems = [
     (icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home'),
-    (icon: Icons.explore_outlined, activeIcon: Icons.explore, label: 'Explore'),
+    (icon: Icons.favorite_border, activeIcon: Icons.favorite, label: 'Favorites'),
   ];
 
   static const _rightItems = [

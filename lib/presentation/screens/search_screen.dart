@@ -1,32 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:malkiyat_app/core/di/injection.dart';
+import 'package:malkiyat_app/core/services/recent_searches_store.dart';
+import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/data/models/property_model.dart';
 import 'package:malkiyat_app/presentation/blocs/property/property_bloc.dart';
 import 'package:malkiyat_app/presentation/widgets/property_card.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final String? initialQuery;
+  const SearchScreen({super.key, this.initialQuery});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final PropertyBloc _bloc = sl<PropertyBloc>();
+  final RecentSearchesStore _recentSearches = sl<RecentSearchesStore>();
   final _searchController = TextEditingController();
   final _minPriceController = TextEditingController();
   final _maxPriceController = TextEditingController();
   String? _selectedType;
   String? _selectedCity;
   int? _bedrooms;
+  List<String> _recent = [];
+  bool _hasSearched = false;
 
   @override
   void initState() {
     super.initState();
-    context.read<PropertyBloc>().add(LoadCities());
+    _bloc.add(LoadCities());
+    _loadRecent();
+    if (widget.initialQuery != null && widget.initialQuery!.isNotEmpty) {
+      _searchController.text = widget.initialQuery!;
+      _runSearch();
+    }
+  }
+
+  Future<void> _loadRecent() async {
+    final recent = await _recentSearches.getAll();
+    if (mounted) setState(() => _recent = recent);
   }
 
   @override
   void dispose() {
+    _bloc.close();
     _searchController.dispose();
     _minPriceController.dispose();
     _maxPriceController.dispose();
@@ -35,22 +54,28 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _runSearch({int page = 1}) {
     final query = _searchController.text.trim();
-    context.read<PropertyBloc>().add(
-          LoadProperties(
-            page: page,
-            limit: 12,
-            cityId: _selectedCity,
-            type: _selectedType,
-            bedrooms: _bedrooms,
-            minPrice: _minPriceController.text.isEmpty
-                ? null
-                : double.tryParse(_minPriceController.text),
-            maxPrice: _maxPriceController.text.isEmpty
-                ? null
-                : double.tryParse(_maxPriceController.text),
-            search: query.isEmpty ? null : query,
-          ),
-        );
+    if (page == 1) {
+      _hasSearched = true;
+      if (query.isNotEmpty) {
+        _recentSearches.add(query).then((_) => _loadRecent());
+      }
+    }
+    _bloc.add(
+      LoadProperties(
+        page: page,
+        limit: 12,
+        cityId: _selectedCity,
+        type: _selectedType,
+        bedrooms: _bedrooms,
+        minPrice: _minPriceController.text.isEmpty
+            ? null
+            : double.tryParse(_minPriceController.text),
+        maxPrice: _maxPriceController.text.isEmpty
+            ? null
+            : double.tryParse(_maxPriceController.text),
+        search: query.isEmpty ? null : query,
+      ),
+    );
   }
 
   @override
@@ -78,6 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
       body: BlocBuilder<PropertyBloc, PropertyState>(
+        bloc: _bloc,
         builder: (context, state) {
           if (state is PropertyLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -144,6 +170,10 @@ class _SearchScreenState extends State<SearchScreen> {
             );
           }
 
+          if (!_hasSearched && _recent.isNotEmpty) {
+            return _buildRecentSearches();
+          }
+
           return const Center(
             child: Text(
               'Enter a search term or use filters to find properties',
@@ -151,6 +181,59 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildRecentSearches() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Recent Searches', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+              TextButton(
+                onPressed: () async {
+                  await _recentSearches.clear();
+                  _loadRecent();
+                },
+                child: const Text('Clear'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _recent.map((term) {
+              return GestureDetector(
+                onTap: () {
+                  _searchController.text = term;
+                  _runSearch();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(color: AppTheme.border),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.history, size: 14, color: AppTheme.textMuted),
+                      const SizedBox(width: 6),
+                      Text(term, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }
@@ -228,6 +311,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   const SizedBox(height: 8),
                   BlocBuilder<PropertyBloc, PropertyState>(
+                    bloc: _bloc,
                     builder: (context, state) {
                       final cities = state is CitiesLoaded
                           ? state.cities

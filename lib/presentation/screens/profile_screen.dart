@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:malkiyat_app/core/di/injection.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
@@ -7,9 +8,13 @@ import 'package:malkiyat_app/data/models/user_model.dart';
 import 'package:malkiyat_app/data/repositories/chat_repository.dart';
 import 'package:malkiyat_app/data/repositories/property_repository.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:malkiyat_app/presentation/screens/about_screen.dart';
 import 'package:malkiyat_app/presentation/screens/account_settings_screen.dart';
+import 'package:malkiyat_app/presentation/screens/community_screen.dart';
 import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
 import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
+import 'package:malkiyat_app/presentation/screens/guide_screen.dart';
+import 'package:malkiyat_app/presentation/screens/installment_calculator_screen.dart';
 import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/my_properties_screen.dart';
 import 'package:malkiyat_app/presentation/screens/notifications_screen.dart';
@@ -105,6 +110,16 @@ class _AuthenticatedProfileState extends State<_AuthenticatedProfile> {
     await launchUrl(uri);
   }
 
+  void _comingSoon(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Coming soon')));
+  }
+
+  Future<void> _inviteFriends() async {
+    await Share.share(
+      "Check out Malkiyat — Pakistan's property portal for buying, selling, and renting homes, plots, and commercial spaces.",
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = widget.user;
@@ -179,6 +194,25 @@ class _AuthenticatedProfileState extends State<_AuthenticatedProfile> {
         _buildMenuItem(icon: Icons.apartment_outlined, title: 'Projects', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProjectsScreen()))),
         _buildMenuItem(icon: Icons.chat_bubble_outline, title: 'Messages', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MessagesScreen()))),
         _buildMenuItem(icon: Icons.notifications_outlined, title: 'Notifications', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationsScreen()))),
+
+        const SizedBox(height: 12),
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Text('Malkiyat', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: Colors.grey[500])),
+        ),
+        _buildMenuItem(icon: Icons.menu_book_outlined, title: 'Malkiyat Guide', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const GuideScreen()))),
+        _buildMenuItem(icon: Icons.calculate_outlined, title: 'Malkiyat Tools', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const InstallmentCalculatorScreen()))),
+        _buildMenuItem(icon: Icons.campaign_outlined, title: 'Malkiyat News', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CommunityScreen()))),
+
+        const SizedBox(height: 12),
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Text('General', style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: Colors.grey[500])),
+        ),
+        _buildMenuItem(icon: Icons.language_outlined, title: 'Language', onTap: () => _comingSoon(context)),
+        _buildMenuItem(icon: Icons.info_outline, title: 'About Us', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutScreen()))),
+        _buildMenuItem(icon: Icons.feedback_outlined, title: 'Feedback', onTap: () => _emailSupport('App Feedback')),
+        _buildMenuItem(icon: Icons.person_add_alt_outlined, title: 'Invite Friends', onTap: _inviteFriends),
         _buildMenuItem(icon: Icons.help_outline, title: 'Help Center', onTap: () => _emailSupport('Help Center')),
         _buildMenuItem(icon: Icons.support_agent_outlined, title: 'Contact Support', onTap: () => _emailSupport('Support request')),
 

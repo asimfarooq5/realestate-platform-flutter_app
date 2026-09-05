@@ -44,6 +44,7 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
         maxPrice: event.maxPrice,
         bedrooms: event.bedrooms,
         featured: event.featured,
+        agencyOnly: event.agencyOnly,
         search: event.search,
         nearLat: event.nearLat,
         nearLng: event.nearLng,

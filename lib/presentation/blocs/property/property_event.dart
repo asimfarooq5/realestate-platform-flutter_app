@@ -18,6 +18,7 @@ class LoadProperties extends PropertyEvent {
   final double? maxPrice;
   final int? bedrooms;
   final bool? featured;
+  final bool? agencyOnly;
   final String? search;
   final double? nearLat;
   final double? nearLng;
@@ -33,6 +34,7 @@ class LoadProperties extends PropertyEvent {
     this.maxPrice,
     this.bedrooms,
     this.featured,
+    this.agencyOnly,
     this.search,
     this.nearLat,
     this.nearLng,
@@ -50,6 +52,7 @@ class LoadProperties extends PropertyEvent {
         maxPrice,
         bedrooms,
         featured,
+        agencyOnly,
         search,
         nearLat,
         nearLng,

@@ -7,6 +7,7 @@ import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:malkiyat_app/presentation/screens/explore_screen.dart';
 import 'package:malkiyat_app/presentation/screens/notifications_screen.dart';
 import 'package:malkiyat_app/presentation/screens/profile_screen.dart';
+import 'package:malkiyat_app/presentation/screens/search_screen.dart';
 
 /// The home tab's header — logo/wordmark, current location, notifications
 /// and account shortcuts, and the search bar. Matches ZippeeHomes' plain
@@ -132,39 +133,55 @@ class _HomeHeaderState extends State<HomeHeader> {
             ],
           ),
           const SizedBox(height: 16),
-          GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const ExploreScreen()),
-            ),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppTheme.backgroundColor,
-                borderRadius: BorderRadius.circular(999),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.search, color: AppTheme.textMuted),
-                  const SizedBox(width: 10),
-                  const Expanded(
-                    child: Text(
-                      'Search homes, plots, commercial...',
-                      style: TextStyle(color: AppTheme.textMuted, fontSize: 14, fontWeight: FontWeight.w500),
+          Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const SearchScreen()),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: AppTheme.backgroundColor,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.search, color: AppTheme.textMuted),
+                        const SizedBox(width: 10),
+                        const Expanded(
+                          child: Text(
+                            'Search homes, plots, commercial...',
+                            style: TextStyle(color: AppTheme.textMuted, fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: const BoxDecoration(
+                            color: AppTheme.accentColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.arrow_forward, color: Colors.white, size: 18),
+                        ),
+                      ],
                     ),
                   ),
-                  Container(
-                    width: 36,
-                    height: 36,
-                    decoration: const BoxDecoration(
-                      color: AppTheme.accentColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.arrow_forward, color: Colors.white, size: 18),
-                  ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(width: 10),
+              _IconCircle(
+                icon: Icons.map_outlined,
+                background: AppTheme.surfaceAlt,
+                iconColor: AppTheme.textPrimary,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ExploreScreen()),
+                ),
+              ),
+            ],
           ),
         ],
       ),

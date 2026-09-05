@@ -18,6 +18,7 @@ class PropertyRepository {
     int? bedrooms,
     String? search,
     bool? featured,
+    bool? agencyOnly,
     double? nearLat,
     double? nearLng,
   }) async {
@@ -33,6 +34,7 @@ class PropertyRepository {
       bedrooms: bedrooms,
       search: search,
       featured: featured,
+      agencyOnly: agencyOnly,
       nearLat: nearLat,
       nearLng: nearLng,
     );

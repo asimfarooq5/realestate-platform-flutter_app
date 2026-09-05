@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/presentation/blocs/auth/auth_bloc.dart';
-import 'package:malkiyat_app/presentation/screens/explore_screen.dart';
+import 'package:malkiyat_app/presentation/screens/favorites_screen.dart';
 import 'package:malkiyat_app/presentation/screens/auth_landing_screen.dart';
 import 'package:malkiyat_app/presentation/screens/messages_screen.dart';
 import 'package:malkiyat_app/presentation/screens/profile_screen.dart';
@@ -11,6 +11,8 @@ import 'package:malkiyat_app/presentation/widgets/nearby_properties_section.dart
 import 'package:malkiyat_app/presentation/widgets/homes_for_you_section.dart';
 import 'package:malkiyat_app/presentation/widgets/list_property_banner.dart';
 import 'package:malkiyat_app/presentation/widgets/home_header.dart';
+import 'package:malkiyat_app/presentation/widgets/recent_searches_section.dart';
+import 'package:malkiyat_app/presentation/widgets/marketed_by_malkiyat_section.dart';
 import 'package:malkiyat_app/presentation/widgets/floating_bottom_nav.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     const HomeContent(),
-    const ExploreScreen(),
+    const FavoritesScreen(),
     const MessagesScreen(),
     const ProfileScreen(),
   ];
@@ -68,11 +70,15 @@ class HomeContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   SizedBox(height: 16),
+                  RecentSearchesSection(),
+                  SizedBox(height: 16),
                   ListPropertyBanner(),
                   SizedBox(height: 24),
                   NearbyPropertiesSection(),
                   SizedBox(height: 24),
                   FeaturedPropertiesSection(),
+                  SizedBox(height: 24),
+                  MarketedByMalkiyatSection(),
                   SizedBox(height: 24),
                   HomesForYouSection(),
                   SizedBox(height: 32),

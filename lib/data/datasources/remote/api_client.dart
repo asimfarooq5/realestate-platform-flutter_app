@@ -100,6 +100,7 @@ class ApiClient {
     int? bedrooms,
     String? search,
     bool? featured,
+    bool? agencyOnly,
     double? nearLat,
     double? nearLng,
   }) async {
@@ -115,6 +116,7 @@ class ApiClient {
       if (bedrooms != null) 'bedrooms': bedrooms,
       if (search != null) 'search': search,
       if (featured != null) 'featured': featured,
+      if (agencyOnly != null) 'agency_only': agencyOnly,
       if (nearLat != null) 'near_lat': nearLat,
       if (nearLng != null) 'near_lng': nearLng,
     };

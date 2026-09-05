@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:malkiyat_app/core/services/location_service.dart';
+import 'package:malkiyat_app/core/services/recent_searches_store.dart';
 import 'package:malkiyat_app/data/datasources/remote/api_client.dart';
 import 'package:malkiyat_app/data/repositories/auth_repository.dart';
 import 'package:malkiyat_app/data/repositories/chat_repository.dart';
@@ -16,6 +17,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ApiClient());
   sl.registerLazySingleton(() => TokenStorage());
   sl.registerLazySingleton(() => LocationService());
+  sl.registerLazySingleton(() => RecentSearchesStore());
 
   // Repositories
   sl.registerLazySingleton(() => AuthRepository(sl(), sl()));

@@ -100,9 +100,19 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       const SizedBox(height: 8),
                       const Text(
+                        'Jaidad Ke Har Baat Ho Asaan',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      const Text(
                         'Pakistan\'s #1 Property Portal',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12.5,
                           color: Colors.white70,
                         ),
                       ),
