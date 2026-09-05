@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:malkiyat_app/core/theme/app_theme.dart';
 import 'package:malkiyat_app/presentation/screens/installment_calculator_screen.dart';
+import 'package:malkiyat_app/presentation/screens/tools/beam_calculator_screen.dart';
 import 'package:malkiyat_app/presentation/screens/tools/building_checklist_screen.dart';
 import 'package:malkiyat_app/presentation/screens/tools/column_calculator_screen.dart';
 import 'package:malkiyat_app/presentation/screens/tools/concrete_calculator_screen.dart';
@@ -58,6 +59,12 @@ class ToolsScreen extends StatelessWidget {
             title: 'Column Calculator',
             subtitle: 'Concrete and reinforcement steel for RCC columns',
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ColumnCalculatorScreen())),
+          ),
+          _ToolTile(
+            icon: Icons.horizontal_rule,
+            title: 'Beam Calculator',
+            subtitle: 'Concrete and reinforcement steel for RCC beams',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const BeamCalculatorScreen())),
           ),
           _ToolTile(
             icon: Icons.view_column_outlined,
