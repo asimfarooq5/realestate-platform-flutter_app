@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:malkiyat_app/core/constants/property_taxonomy.dart';
@@ -132,12 +133,29 @@ class _AddPropertyScreenState extends State<AddPropertyScreen> {
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
+      if (e is DioException && e.response?.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Your session has expired. Please sign in again.'), backgroundColor: AppTheme.errorColor),
+        );
+        Navigator.pop(context);
+        return;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to save: $e'), backgroundColor: AppTheme.errorColor),
+        SnackBar(content: Text('Failed to save: ${_friendlyError(e)}'), backgroundColor: AppTheme.errorColor),
       );
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
+  }
+
+  String _friendlyError(Object e) {
+    if (e is DioException) {
+      if (e.type == DioExceptionType.connectionError || e.type == DioExceptionType.connectionTimeout) {
+        return 'Could not connect to the server. Check your internet connection.';
+      }
+      return 'Something went wrong. Please try again.';
+    }
+    return e.toString();
   }
 
   @override

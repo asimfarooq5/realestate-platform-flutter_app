@@ -8,6 +8,11 @@ class ApiClient {
   late Dio _dio;
   String? _authToken;
 
+  /// Fired when a request comes back 401 with a token attached — the
+  /// session is no longer valid (expired/revoked), so callers should treat
+  /// this as a forced sign-out rather than a one-off request failure.
+  void Function()? onUnauthorized;
+
   ApiClient() {
     _dio = Dio(
       BaseOptions(
@@ -30,7 +35,12 @@ class ApiClient {
           return handler.next(options);
         },
         onError: (error, handler) {
-          // Handle errors globally
+          final path = error.requestOptions.path;
+          final isAuthEndpoint = path == ApiConstants.login || path == ApiConstants.register;
+          if (error.response?.statusCode == 401 && !isAuthEndpoint) {
+            _authToken = null;
+            onUnauthorized?.call();
+          }
           return handler.next(error);
         },
       ),
